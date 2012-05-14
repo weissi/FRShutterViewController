@@ -9,14 +9,71 @@
 /* Begin PBXBuildFile section */
 		DAA967ED156150FD00BD5AE4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA967EC156150FD00BD5AE4 /* Foundation.framework */; };
 		DAA967F3156150FD00BD5AE4 /* FRShutterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA967F2156150FD00BD5AE4 /* FRShutterViewController.m */; };
+		DAA968011561515200BD5AE4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA968001561515200BD5AE4 /* UIKit.framework */; };
+		DAA968021561515200BD5AE4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA967EC156150FD00BD5AE4 /* Foundation.framework */; };
+		DAA968041561515200BD5AE4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA968031561515200BD5AE4 /* CoreGraphics.framework */; };
+		DAA9680A1561515200BD5AE4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAA968081561515200BD5AE4 /* InfoPlist.strings */; };
+		DAA9680C1561515200BD5AE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9680B1561515200BD5AE4 /* main.m */; };
+		DAA968101561515200BD5AE4 /* FRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9680F1561515200BD5AE4 /* FRAppDelegate.m */; };
+		DAA968141561517400BD5AE4 /* libFRShutterViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA967E9156150FD00BD5AE4 /* libFRShutterViewController.a */; };
+		DAA96822156151B200BD5AE4 /* libFRLayeredNavigationController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA9681F156151A900BD5AE4 /* libFRLayeredNavigationController.a */; };
+		DAA9683C1561549100BD5AE4 /* FRShutterDecorationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA9683A1561549100BD5AE4 /* FRShutterDecorationViewController.h */; };
+		DAA9683D1561549100BD5AE4 /* FRShutterDecorationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9683B1561549100BD5AE4 /* FRShutterDecorationViewController.m */; };
+		DAA968441561580200BD5AE4 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = DAA9683E1561580200BD5AE4 /* back.png */; };
+		DAA968451561580200BD5AE4 /* mandel.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DAA9683F1561580200BD5AE4 /* mandel.jpg */; };
+		DAA968461561580200BD5AE4 /* SampleContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA968411561580200BD5AE4 /* SampleContentViewController.m */; };
+		DAA968471561580200BD5AE4 /* SampleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA968431561580200BD5AE4 /* SampleListViewController.m */; };
+		DAA9684B15615E6C00BD5AE4 /* FRShutterDecorationView.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA9684915615E6C00BD5AE4 /* FRShutterDecorationView.h */; };
+		DAA9684C15615E6C00BD5AE4 /* FRShutterDecorationView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9684A15615E6C00BD5AE4 /* FRShutterDecorationView.m */; };
+		DAA9684F156165C800BD5AE4 /* UIViewController+FRShutterViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA9684D156165C800BD5AE4 /* UIViewController+FRShutterViewController.h */; };
+		DAA96850156165C800BD5AE4 /* UIViewController+FRShutterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9684E156165C800BD5AE4 /* UIViewController+FRShutterViewController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DAA9681E156151A900BD5AE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA96815156151A900BD5AE4 /* FRLayeredNavigationController.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA4FACC615591AB300D85A7E;
+			remoteInfo = FRLayeredNavigationController;
+		};
+		DAA96820156151A900BD5AE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA96815156151A900BD5AE4 /* FRLayeredNavigationController.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA4FAD0215591BD500D85A7E;
+			remoteInfo = FRLayeredNavigationControllerDemo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		DAA967E9156150FD00BD5AE4 /* libFRShutterViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFRShutterViewController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAA967EC156150FD00BD5AE4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		DAA967F0156150FD00BD5AE4 /* FRShutterViewController-Prefix.pch */ = {isa = PBXFileReference; path = "FRShutterViewController-Prefix.pch"; sourceTree = "<group>"; };
-		DAA967F1156150FD00BD5AE4 /* FRShutterViewController.h */ = {isa = PBXFileReference; path = FRShutterViewController.h; sourceTree = "<group>"; };
+		DAA967F0156150FD00BD5AE4 /* FRShutterViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FRShutterViewController-Prefix.pch"; sourceTree = "<group>"; };
+		DAA967F1156150FD00BD5AE4 /* FRShutterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FRShutterViewController.h; sourceTree = "<group>"; };
 		DAA967F2156150FD00BD5AE4 /* FRShutterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FRShutterViewController.m; sourceTree = "<group>"; };
+		DAA967FE1561515200BD5AE4 /* FRShutterViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRShutterViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAA968001561515200BD5AE4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DAA968031561515200BD5AE4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DAA968071561515200BD5AE4 /* FRShutterViewControllerDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FRShutterViewControllerDemo-Info.plist"; sourceTree = "<group>"; };
+		DAA968091561515200BD5AE4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DAA9680B1561515200BD5AE4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DAA9680D1561515200BD5AE4 /* FRShutterViewControllerDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FRShutterViewControllerDemo-Prefix.pch"; sourceTree = "<group>"; };
+		DAA9680E1561515200BD5AE4 /* FRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FRAppDelegate.h; sourceTree = "<group>"; };
+		DAA9680F1561515200BD5AE4 /* FRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FRAppDelegate.m; sourceTree = "<group>"; };
+		DAA96815156151A900BD5AE4 /* FRLayeredNavigationController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FRLayeredNavigationController.xcodeproj; path = ../FRLayeredNavigationController/FRLayeredNavigationController.xcodeproj; sourceTree = "<group>"; };
+		DAA9683A1561549100BD5AE4 /* FRShutterDecorationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRShutterDecorationViewController.h; sourceTree = "<group>"; };
+		DAA9683B1561549100BD5AE4 /* FRShutterDecorationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRShutterDecorationViewController.m; sourceTree = "<group>"; };
+		DAA9683E1561580200BD5AE4 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		DAA9683F1561580200BD5AE4 /* mandel.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mandel.jpg; sourceTree = "<group>"; };
+		DAA968401561580200BD5AE4 /* SampleContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleContentViewController.h; sourceTree = "<group>"; };
+		DAA968411561580200BD5AE4 /* SampleContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleContentViewController.m; sourceTree = "<group>"; };
+		DAA968421561580200BD5AE4 /* SampleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleListViewController.h; sourceTree = "<group>"; };
+		DAA968431561580200BD5AE4 /* SampleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleListViewController.m; sourceTree = "<group>"; };
+		DAA9684915615E6C00BD5AE4 /* FRShutterDecorationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRShutterDecorationView.h; sourceTree = "<group>"; };
+		DAA9684A15615E6C00BD5AE4 /* FRShutterDecorationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRShutterDecorationView.m; sourceTree = "<group>"; };
+		DAA9684D156165C800BD5AE4 /* UIViewController+FRShutterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FRShutterViewController.h"; sourceTree = "<group>"; };
+		DAA9684E156165C800BD5AE4 /* UIViewController+FRShutterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+FRShutterViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,13 +85,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DAA967FB1561515200BD5AE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAA96822156151B200BD5AE4 /* libFRLayeredNavigationController.a in Frameworks */,
+				DAA968141561517400BD5AE4 /* libFRShutterViewController.a in Frameworks */,
+				DAA968011561515200BD5AE4 /* UIKit.framework in Frameworks */,
+				DAA968021561515200BD5AE4 /* Foundation.framework in Frameworks */,
+				DAA968041561515200BD5AE4 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		DAA967DE156150FD00BD5AE4 = {
 			isa = PBXGroup;
 			children = (
+				DAA96815156151A900BD5AE4 /* FRLayeredNavigationController.xcodeproj */,
 				DAA967EE156150FD00BD5AE4 /* FRShutterViewController */,
+				DAA968051561515200BD5AE4 /* FRShutterViewControllerDemo */,
 				DAA967EB156150FD00BD5AE4 /* Frameworks */,
 				DAA967EA156150FD00BD5AE4 /* Products */,
 			);
@@ -44,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				DAA967E9156150FD00BD5AE4 /* libFRShutterViewController.a */,
+				DAA967FE1561515200BD5AE4 /* FRShutterViewControllerDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -52,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				DAA967EC156150FD00BD5AE4 /* Foundation.framework */,
+				DAA968001561515200BD5AE4 /* UIKit.framework */,
+				DAA968031561515200BD5AE4 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -61,6 +135,12 @@
 			children = (
 				DAA967F1156150FD00BD5AE4 /* FRShutterViewController.h */,
 				DAA967F2156150FD00BD5AE4 /* FRShutterViewController.m */,
+				DAA9683A1561549100BD5AE4 /* FRShutterDecorationViewController.h */,
+				DAA9683B1561549100BD5AE4 /* FRShutterDecorationViewController.m */,
+				DAA9684915615E6C00BD5AE4 /* FRShutterDecorationView.h */,
+				DAA9684A15615E6C00BD5AE4 /* FRShutterDecorationView.m */,
+				DAA9684D156165C800BD5AE4 /* UIViewController+FRShutterViewController.h */,
+				DAA9684E156165C800BD5AE4 /* UIViewController+FRShutterViewController.m */,
 				DAA967EF156150FD00BD5AE4 /* Supporting Files */,
 			);
 			path = FRShutterViewController;
@@ -74,6 +154,50 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DAA968051561515200BD5AE4 /* FRShutterViewControllerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				DAA9680E1561515200BD5AE4 /* FRAppDelegate.h */,
+				DAA9680F1561515200BD5AE4 /* FRAppDelegate.m */,
+				DAA968401561580200BD5AE4 /* SampleContentViewController.h */,
+				DAA968411561580200BD5AE4 /* SampleContentViewController.m */,
+				DAA968421561580200BD5AE4 /* SampleListViewController.h */,
+				DAA968431561580200BD5AE4 /* SampleListViewController.m */,
+				DAA968481561585E00BD5AE4 /* Resources */,
+				DAA968061561515200BD5AE4 /* Supporting Files */,
+			);
+			path = FRShutterViewControllerDemo;
+			sourceTree = "<group>";
+		};
+		DAA968061561515200BD5AE4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968071561515200BD5AE4 /* FRShutterViewControllerDemo-Info.plist */,
+				DAA968081561515200BD5AE4 /* InfoPlist.strings */,
+				DAA9680B1561515200BD5AE4 /* main.m */,
+				DAA9680D1561515200BD5AE4 /* FRShutterViewControllerDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DAA96816156151A900BD5AE4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DAA9681F156151A900BD5AE4 /* libFRLayeredNavigationController.a */,
+				DAA96821156151A900BD5AE4 /* FRLayeredNavigationControllerDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DAA968481561585E00BD5AE4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DAA9683E1561580200BD5AE4 /* back.png */,
+				DAA9683F1561580200BD5AE4 /* mandel.jpg */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -81,6 +205,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAA9683C1561549100BD5AE4 /* FRShutterDecorationViewController.h in Headers */,
+				DAA9684B15615E6C00BD5AE4 /* FRShutterDecorationView.h in Headers */,
+				DAA9684F156165C800BD5AE4 /* UIViewController+FRShutterViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +231,23 @@
 			productReference = DAA967E9156150FD00BD5AE4 /* libFRShutterViewController.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		DAA967FD1561515200BD5AE4 /* FRShutterViewControllerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAA968111561515200BD5AE4 /* Build configuration list for PBXNativeTarget "FRShutterViewControllerDemo" */;
+			buildPhases = (
+				DAA967FA1561515200BD5AE4 /* Sources */,
+				DAA967FB1561515200BD5AE4 /* Frameworks */,
+				DAA967FC1561515200BD5AE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FRShutterViewControllerDemo;
+			productName = FRShutterViewControllerDemo;
+			productReference = DAA967FE1561515200BD5AE4 /* FRShutterViewControllerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -122,12 +266,49 @@
 			mainGroup = DAA967DE156150FD00BD5AE4;
 			productRefGroup = DAA967EA156150FD00BD5AE4 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DAA96816156151A900BD5AE4 /* Products */;
+					ProjectRef = DAA96815156151A900BD5AE4 /* FRLayeredNavigationController.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				DAA967E8156150FD00BD5AE4 /* FRShutterViewController */,
+				DAA967FD1561515200BD5AE4 /* FRShutterViewControllerDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DAA9681F156151A900BD5AE4 /* libFRLayeredNavigationController.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFRLayeredNavigationController.a;
+			remoteRef = DAA9681E156151A900BD5AE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DAA96821156151A900BD5AE4 /* FRLayeredNavigationControllerDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = FRLayeredNavigationControllerDemo.app;
+			remoteRef = DAA96820156151A900BD5AE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DAA967FC1561515200BD5AE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAA9680A1561515200BD5AE4 /* InfoPlist.strings in Resources */,
+				DAA968441561580200BD5AE4 /* back.png in Resources */,
+				DAA968451561580200BD5AE4 /* mandel.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DAA967E5156150FD00BD5AE4 /* Sources */ = {
@@ -135,10 +316,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAA967F3156150FD00BD5AE4 /* FRShutterViewController.m in Sources */,
+				DAA9683D1561549100BD5AE4 /* FRShutterDecorationViewController.m in Sources */,
+				DAA9684C15615E6C00BD5AE4 /* FRShutterDecorationView.m in Sources */,
+				DAA96850156165C800BD5AE4 /* UIViewController+FRShutterViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAA967FA1561515200BD5AE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAA9680C1561515200BD5AE4 /* main.m in Sources */,
+				DAA968101561515200BD5AE4 /* FRAppDelegate.m in Sources */,
+				DAA968461561580200BD5AE4 /* SampleContentViewController.m in Sources */,
+				DAA968471561580200BD5AE4 /* SampleListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DAA968081561515200BD5AE4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAA968091561515200BD5AE4 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		DAA967F4156150FD00BD5AE4 /* Debug */ = {
@@ -207,6 +413,43 @@
 			};
 			name = Release;
 		};
+		DAA968121561515200BD5AE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FRShutterViewControllerDemo/FRShutterViewControllerDemo-Prefix.pch";
+				HEADER_SEARCH_PATHS = ../FRLayeredNavigationController/;
+				INFOPLIST_FILE = "FRShutterViewControllerDemo/FRShutterViewControllerDemo-Info.plist";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DAA968131561515200BD5AE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FRShutterViewControllerDemo/FRShutterViewControllerDemo-Prefix.pch";
+				HEADER_SEARCH_PATHS = ../FRLayeredNavigationController/;
+				INFOPLIST_FILE = "FRShutterViewControllerDemo/FRShutterViewControllerDemo-Info.plist";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -226,6 +469,16 @@
 				DAA967F8156150FD00BD5AE4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAA968111561515200BD5AE4 /* Build configuration list for PBXNativeTarget "FRShutterViewControllerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAA968121561515200BD5AE4 /* Debug */,
+				DAA968131561515200BD5AE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
