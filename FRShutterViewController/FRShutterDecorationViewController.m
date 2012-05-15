@@ -16,7 +16,8 @@
 @interface FRShutterDecorationViewController ()
 
 @property (nonatomic, readwrite, strong) UIViewController *contentViewController;
-@property (nonatomic, readwrite, strong) FRShutterDecorationView *decorationView;
+@property (nonatomic, readwrite, strong) UIView *decorationView;
+@property (nonatomic, readonly, strong) UIView *customDecorationView;
 
 @end
 
@@ -24,10 +25,12 @@
 
 #pragma mark - init/dealloc
 
-- (id)initWithContentViewController:(UIViewController *)vc {
+- (id)initWithContentViewController:(UIViewController *)vc shutterDecorationView:(UIView *)customDecorationView
+{
     if ((self = [super init])) {
         NSAssert(vc != nil, @"FRShutterDecorationViewController: content view controller is nil");
         _contentViewController = vc;
+        _customDecorationView = customDecorationView;
         
         [self attachContentViewController];
     }
@@ -200,7 +203,11 @@
     self.view = [[UIView alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.decorationView = [[FRShutterDecorationView alloc] init];
+    if (self.customDecorationView == nil) {
+        self.decorationView = [[FRShutterDecorationView alloc] initWithFrame:CGRectZero roundedCorners:0];
+    } else {
+        self.decorationView = self.customDecorationView;
+    }
     
     [self.view addSubview:self.decorationView];
     [self.view addSubview:self.contentViewController.view];
@@ -213,6 +220,12 @@
     self.view.layer.shadowColor = [UIColor blackColor].CGColor;
     self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
     
+    [self doViewLayout];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self doViewLayout];
 }
 
@@ -231,5 +244,6 @@
 
 @synthesize contentViewController = _contentViewController;
 @synthesize decorationView = _decorationView;
+@synthesize customDecorationView = _customDecorationView;
 
 @end

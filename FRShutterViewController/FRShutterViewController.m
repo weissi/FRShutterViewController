@@ -15,6 +15,7 @@
 
 @property (nonatomic, readwrite, strong) FRShutterDecorationViewController *shutterDecorationViewController;
 @property (nonatomic, readwrite, strong) UIPanGestureRecognizer *panGR;
+@property (nonatomic, readwrite, strong) UIView *customDecorationView;
 
 @end
 
@@ -26,10 +27,22 @@
                 shutterOrientation:(FRShutterViewControllerOrientation)orientation
                      spineLocation:(FRShutterViewControllerSpineLocation)spineLocation
 {
+    return [self initWithMasterViewController:master
+                           shutterOrientation:orientation
+                                spineLocation:spineLocation
+                        shutterDecorationView:nil];
+}
+
+- (id)initWithMasterViewController:(UIViewController *)master
+                shutterOrientation:(FRShutterViewControllerOrientation)orientation
+                     spineLocation:(FRShutterViewControllerSpineLocation)spineLocation
+             shutterDecorationView:(UIView *)customDecorationView
+{
     if ((self = [super init])) {
         _masterViewController = master;
         _orientation = orientation;
         _spineLocation = spineLocation;
+        _customDecorationView = customDecorationView;
     }
     
     [self attachMasterViewController];
@@ -62,14 +75,19 @@
 - (void)loadView
 {
     self.view = [[UIView alloc] init];
-    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.masterViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.masterViewController.view];
+    
+    if (self.shutterDecorationViewController) {
+        const CGRect onscreenFrame = [self shutterDecorationViewControllerViewFrame];
+        self.shutterDecorationViewController.view.frame = onscreenFrame;
+        [self.view addSubview:self.shutterDecorationViewController.view];
+    }
 }
 
 - (void)viewDidLoad
 {
-    self.view.backgroundColor = [UIColor blueColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -77,18 +95,37 @@
 	return YES;
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self doLayout];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self doLayout];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    [super didRotateFromInterfaceOrientation:orientation];
+    [self doLayout];
+}
+
+#pragma mark - internal helper methods
+
+- (void)doLayout
 {
     if (self.shutterDecorationViewController != nil) {
         CGRect f = self.shutterDecorationViewController.view.frame;
         f.size = self.view.bounds.size;
         self.shutterDecorationViewController.view.frame = f; /* don't remove this line! */
-        f.origin = [self.shutterDecorationViewController originMin];
+        f.origin = [self shutterNearestBound];
         self.shutterDecorationViewController.view.frame = f;
     }
-}
 
-#pragma mark - internal helper methods
+}
 
 - (CGPoint)offscreenOrigin {
     if (self.orientation == FRShutterViewControllerOrientationHorizontal) {
@@ -109,6 +146,21 @@
     return CGPointZero;
 }
 
+- (CGPoint)shutterNearestBound
+{
+    CGPoint min = [self.shutterDecorationViewController originMin];
+    CGPoint max = [self.shutterDecorationViewController originMax];
+    CGPoint cur = self.shutterDecorationViewController.view.frame.origin;
+    CGFloat distToMin = sqrt(((min.x-cur.x)*(min.x-cur.x)) + ((min.y-cur.y)*((min.y-cur.y))));
+    CGFloat distToMax = sqrt(((max.x-cur.x)*(max.x-cur.x)) + ((max.y-cur.y)*((max.y-cur.y))));
+    
+    if (distToMax < distToMin) {
+        return [self.shutterDecorationViewController originMax];
+    } else {
+        return [self.shutterDecorationViewController originMin];
+    }
+}
+
 #pragma mark - UIGestureRecognizer delegate interface
 
 - (void)handleGesture:(UIPanGestureRecognizer *)g
@@ -118,17 +170,17 @@
 
     switch (g.state) {
         case UIGestureRecognizerStatePossible: {
-            NSLog(@"UIGestureRecognizerStatePossible");
+            //NSLog(@"UIGestureRecognizerStatePossible");
             break;
         }
             
         case UIGestureRecognizerStateBegan: {
-            NSLog(@"UIGestureRecognizerStateBegan");
+            //NSLog(@"UIGestureRecognizerStateBegan");
             break;
         }
             
         case UIGestureRecognizerStateChanged: {
-            NSLog(@"UIGestureRecognizerStateChanged");
+            //NSLog(@"UIGestureRecognizerStateChanged");
             switch (self.orientation) {
                 case FRShutterViewControllerOrientationHorizontal: {
                     CGFloat xTranslation = [g translationInView:v].x;
@@ -150,7 +202,7 @@
         }
             
         case UIGestureRecognizerStateEnded: {
-            NSLog(@"UIGestureRecognizerStateEnded");
+            //NSLog(@"UIGestureRecognizerStateEnded");
             CGFloat velocity;
             switch (self.orientation) {
                 case FRShutterViewControllerOrientationHorizontal: {
@@ -172,17 +224,7 @@
                     f.origin = [self.shutterDecorationViewController originMin];
                 }
             } else {
-                CGPoint min = [self.shutterDecorationViewController originMin];
-                CGPoint max = [self.shutterDecorationViewController originMax];
-                CGPoint cur = f.origin;
-                CGFloat distToMin = sqrt(((min.x-cur.x)*(min.x-cur.x)) + ((min.y-cur.y)*((min.y-cur.y))));
-                CGFloat distToMax = sqrt(((max.x-cur.x)*(max.x-cur.x)) + ((max.y-cur.y)*((max.y-cur.y))));
-                
-                if (distToMax < distToMin) {
-                    f.origin = [self.shutterDecorationViewController originMax];
-                } else {
-                    f.origin = [self.shutterDecorationViewController originMin];
-                }
+                f.origin = [self shutterNearestBound];
             }
             [UIView animateWithDuration:0.5
                                   delay:0.0
@@ -198,6 +240,23 @@
         default:
             break;
     }
+}
+
+- (CGRect)shutterDecorationViewControllerViewFrame
+{
+    CGPoint onscreenOrigin;
+    if (self.spineLocation == FRShutterViewControllerSpineLocationMin) {
+        onscreenOrigin = [self.shutterDecorationViewController originMax];
+    } else if (self.spineLocation == FRShutterViewControllerSpineLocationMax) {
+        onscreenOrigin = [self.shutterDecorationViewController originMin];
+    } else {
+        NSAssert(false, @"unknown spine location");
+    }
+    const CGRect onscreenFrame = CGRectMake(onscreenOrigin.x,
+                                            onscreenOrigin.y,
+                                            self.view.bounds.size.width,
+                                            self.view.bounds.size.height);
+    return onscreenFrame;
 }
 
 #pragma mark - Public API
@@ -240,22 +299,17 @@
         return;
     }
     /* no shutter controller yet, create new one */
-    self.shutterDecorationViewController = [[FRShutterDecorationViewController alloc] initWithContentViewController:vc];
+    self.shutterDecorationViewController =
+        [[FRShutterDecorationViewController alloc] initWithContentViewController:vc
+                                                           shutterDecorationView:self.customDecorationView];
     [self addChildViewController:self.shutterDecorationViewController];
     CGPoint offscreenOrigin = [self offscreenOrigin];
     const CGRect offscreenFrame = CGRectMake(offscreenOrigin.x,
                                              offscreenOrigin.y,
                                              self.view.bounds.size.width,
                                              self.view.bounds.size.height);
-    CGPoint onscreenOrigin;
-    if (self.spineLocation == FRShutterViewControllerSpineLocationMin) {
-        onscreenOrigin = [self.shutterDecorationViewController originMax];
-    } else if (self.spineLocation == FRShutterViewControllerSpineLocationMax) {
-        onscreenOrigin = [self.shutterDecorationViewController originMin];
-    } else {
-        NSAssert(false, @"unknown spine location");
-    }
-    const CGRect onscreenFrame = CGRectMake(onscreenOrigin.x, onscreenOrigin.y, self.view.bounds.size.width, self.view.bounds.size.height);
+    
+    const CGRect onscreenFrame = [self shutterDecorationViewControllerViewFrame];
     self.shutterDecorationViewController.view.frame = offscreenFrame;
     [self.view addSubview:self.shutterDecorationViewController.view];
     
@@ -275,5 +329,6 @@
 @synthesize masterViewController = _masterViewController;
 @synthesize shutterDecorationViewController = _shutterDecorationViewController;
 @synthesize panGR = _panGR;
+@synthesize customDecorationView = _customDecorationView;
 
 @end

@@ -12,13 +12,14 @@
 
 @interface FRShutterDecorationViewController : UIViewController {
     UIViewController *_contentViewController;
-    FRShutterDecorationView *_decorationView;
+    UIView *_decorationView;
+    UIView *_customDecorationView;
 }
 
-- (id)initWithContentViewController:(UIViewController *)vc;
+- (id)initWithContentViewController:(UIViewController *)vc shutterDecorationView:(UIView *)customDecorationView;
 - (CGPoint)originMin;
 - (CGPoint)originMax;
 
-@property (nonatomic, readonly, strong) FRShutterDecorationView *decorationView;
+@property (nonatomic, readonly, strong) UIView *decorationView;
 
 @end

@@ -29,11 +29,17 @@ typedef enum {
     FRShutterDecorationViewController *_shutterDecorationViewController;
     FRShutterViewControllerOrientation _orientation;
     UIPanGestureRecognizer *_panGR;
+    UIView *_customDecorationView;
 }
 
 - (id)initWithMasterViewController:(UIViewController *)master
                 shutterOrientation:(FRShutterViewControllerOrientation)orientation
                      spineLocation:(FRShutterViewControllerSpineLocation)spineLocation;
+
+- (id)initWithMasterViewController:(UIViewController *)master
+                shutterOrientation:(FRShutterViewControllerOrientation)orientation
+                     spineLocation:(FRShutterViewControllerSpineLocation)spineLocation
+             shutterDecorationView:(UIView *)customDecorationView;
 
 - (void)openDetailViewController:(UIViewController *)vc animated:(BOOL)animated;
 

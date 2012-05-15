@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FRShutterDecorationView : UIView
+@interface FRShutterDecorationView : UIView {
+    CGGradientRef _savedGradient;
+    @private
+    UIRectCorner _roundedCorners;
+}
+
+- (id)initWithFrame:(CGRect)frame roundedCorners:(UIRectCorner)corners;
 
 @end
