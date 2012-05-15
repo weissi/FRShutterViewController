@@ -15,6 +15,9 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor redColor];
+        UIImage *img = [UIImage imageNamed:@"akte.png"];
+        UIImageView *v = [[UIImageView alloc] initWithImage:img];
+        [self addSubview:v];
     }
     return self;
 }
