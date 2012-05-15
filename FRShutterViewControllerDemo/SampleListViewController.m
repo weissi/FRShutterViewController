@@ -88,13 +88,13 @@
     if (n < 0) {
         return @"iOS stinkt";
     } else if (n == 0) {
-        return @"content (ANIMATION)";
+        return @"MEIN TAG";
     } else if (n == 1) {
         return @"content chromeless (NO ANIMATION)";
     } else if (n == 2) {
-        return @"open shutter (ANIMATION)";
+        return @"Laborbefund, 15.5.2012, 10:15";
     } else if (n == 3) {
-        return @"open shutter (NO ANIMATION)";
+        return @"Ahorn, Klaus, 27.11.1948";
     } else if (n == 4) {
         return @"close shutter (ANIMATION)";
     } else if (n == 5) {
@@ -191,7 +191,7 @@
         svc.title = title;
         [self.layeredNavigationController pushViewController:svc
                                                    inFrontOf:self
-                                                maximumWidth:YES
+                                                maximumWidth:NO
                                                     animated:YES
                                                configuration:^(FRLayeredNavigationItem *item) {
                                                    UISegmentedControl *segControl = [[UISegmentedControl alloc]
@@ -205,6 +205,7 @@
                                                         forControlEvents:UIControlEventValueChanged];
                                                    
                                                    item.titleView = segControl;
+                                                   item.width = 620;
                                                }];
     } else if (indexPath.row == 1) {
         /* push a content view controller */
@@ -217,10 +218,11 @@
         SampleListViewController *vc = [[SampleListViewController alloc] init];
         FRLayeredNavigationController *lnc = [[FRLayeredNavigationController alloc] initWithRootViewController:vc];
         [self.shutterViewController openDetailViewController:lnc animated:YES];
+        [vc performSelector:@selector(openList) withObject:nil afterDelay:0.01];
     } else if (indexPath.row == 3) {
         SampleListViewController *vc = [[SampleListViewController alloc] init];
         FRLayeredNavigationController *lnc = [[FRLayeredNavigationController alloc] initWithRootViewController:vc];
-        [self.shutterViewController openDetailViewController:lnc animated:NO];
+        [self.shutterViewController openDetailViewController:lnc animated:YES];
     } else if (indexPath.row == 4) {
         [self.shutterViewController openDetailViewController:nil animated:YES];
     } else if (indexPath.row == 5) {
@@ -246,4 +248,68 @@
     }
 }
 
+- (void)openList {
+    SampleListViewController *svc = [[SampleListViewController alloc] init];
+    svc.title = self.title;
+    [self.layeredNavigationController pushViewController:svc inFrontOf:self maximumWidth:NO animated:YES configuration:^(FRLayeredNavigationItem *item) {
+        /*
+         item.width = (arc4random() % 200) + 200;
+         if (indexPath.row == 6) {
+         item.nextItemDistance = 2;
+         } else {
+         item.nextItemDistance = (arc4random() % 100) + 40;
+         }
+         */
+        item.width = 200;
+        item.nextItemDistance = 64;
+        item.title = [NSString stringWithFormat:@"%@ (%f)", self.title, item.width];;
+        return;
+    }];
+    [svc performSelector:@selector(openContent) withObject:nil afterDelay:0.01];
+}
+
+- (void)openContent {
+    SampleContentViewController *svc = [[SampleContentViewController alloc] init];
+    svc.title = self.title;
+    [self.layeredNavigationController pushViewController:svc
+                                               inFrontOf:self
+                                            maximumWidth:YES
+                                                animated:YES
+                                           configuration:^(FRLayeredNavigationItem *item) {
+                                               UISegmentedControl *segControl = [[UISegmentedControl alloc]
+                                                                                 initWithItems:[NSArray
+                                                                                                arrayWithObjects:@"foo", @"bar", @"buz", nil]];
+                                               segControl.segmentedControlStyle = UISegmentedControlStyleBar;
+                                               segControl.selectedSegmentIndex = 0;
+                                               
+                                               [segControl addTarget:svc
+                                                              action:@selector(indexDidChangeForSegmentedControl:)
+                                                    forControlEvents:UIControlEventValueChanged];
+                                               
+                                               item.titleView = segControl;
+                                           }];    
+}
+
+- (void)openMeinTag {
+    SampleContentViewController *svc = [[SampleContentViewController alloc] init];
+    svc.title = self.title;
+    [self.layeredNavigationController pushViewController:svc
+                                               inFrontOf:self
+                                            maximumWidth:NO
+                                                animated:YES
+                                           configuration:^(FRLayeredNavigationItem *item) {
+                                               UISegmentedControl *segControl = [[UISegmentedControl alloc]
+                                                                                 initWithItems:[NSArray
+                                                                                                arrayWithObjects:@"foo", @"bar", @"buz", nil]];
+                                               segControl.segmentedControlStyle = UISegmentedControlStyleBar;
+                                               segControl.selectedSegmentIndex = 0;
+                                               
+                                               [segControl addTarget:svc
+                                                              action:@selector(indexDidChangeForSegmentedControl:)
+                                                    forControlEvents:UIControlEventValueChanged];
+                                               
+                                               item.titleView = segControl;
+                                               item.width = 620;
+                                           }];    
+}
 @end

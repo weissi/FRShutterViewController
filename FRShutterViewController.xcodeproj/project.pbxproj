@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5296F0CD15624B48002D34D7 /* akte.png in Resources */ = {isa = PBXBuildFile; fileRef = 52ABE6E515622B4200B870E8 /* akte.png */; };
 		DAA967ED156150FD00BD5AE4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA967EC156150FD00BD5AE4 /* Foundation.framework */; };
 		DAA967F3156150FD00BD5AE4 /* FRShutterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA967F2156150FD00BD5AE4 /* FRShutterViewController.m */; };
 		DAA968011561515200BD5AE4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA968001561515200BD5AE4 /* UIKit.framework */; };
@@ -305,6 +306,7 @@
 				DAA9680A1561515200BD5AE4 /* InfoPlist.strings in Resources */,
 				DAA968441561580200BD5AE4 /* back.png in Resources */,
 				DAA968451561580200BD5AE4 /* mandel.jpg in Resources */,
+				5296F0CD15624B48002D34D7 /* akte.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
