@@ -1,17 +1,17 @@
-/*     This file is part of FRLayeredNavigationController.
+/*     This file is part of FRShutterViewController.
  *
- * FRLayeredNavigationController is free software: you can redistribute it and/or modify
+ * FRShutterViewController is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * FRLayeredNavigationController is distributed in the hope that it will be useful,
+ * FRShutterViewController is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with FRLayeredNavigationController.  If not, see <http://www.gnu.org/licenses/>.
+ * along with FRShutterViewController.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  *  Copyright (c) 2012, Johannes Weiß <weiss@tux4u.de> for factis research GmbH.
@@ -50,12 +50,12 @@
 - (void)loadView
 {
     self.view = [[UIView alloc] init];
-    
+
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *path = [bundle pathForResource:@"mandel" ofType:@"jpg"];
     UIImage *img = [UIImage imageWithContentsOfFile:path];
     self.imageView = [[UIImageView alloc] initWithImage:img];
-    
+
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.scrollView.maximumZoomScale = 10;
@@ -65,9 +65,9 @@
     self.scrollView.delegate = self;
     [self.scrollView addSubview:self.imageView];
     self.scrollView.zoomScale = .37;
-    
+
     [self.view addSubview:self.scrollView];
-    
+
     UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(10, 10, 400, 40)];
     [self.view addSubview:slider];
 }
@@ -107,7 +107,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
+
     self.scrollView.delegate = nil;
     self.scrollView = nil;
     self.imageView = nil;

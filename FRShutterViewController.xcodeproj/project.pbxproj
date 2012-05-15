@@ -47,6 +47,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DAA820871562C6F0000F4D62 /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
+		DAA820881562C6F0000F4D62 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		DAA820891562C6F0000F4D62 /* COPYING.LESSER */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING.LESSER; sourceTree = "<group>"; };
 		DAA967E9156150FD00BD5AE4 /* libFRShutterViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFRShutterViewController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAA967EC156150FD00BD5AE4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAA967F0156150FD00BD5AE4 /* FRShutterViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FRShutterViewController-Prefix.pch"; sourceTree = "<group>"; };
@@ -103,6 +106,9 @@
 		DAA967DE156150FD00BD5AE4 = {
 			isa = PBXGroup;
 			children = (
+				DAA820871562C6F0000F4D62 /* AUTHORS */,
+				DAA820881562C6F0000F4D62 /* COPYING */,
+				DAA820891562C6F0000F4D62 /* COPYING.LESSER */,
 				DAA96815156151A900BD5AE4 /* FRLayeredNavigationController.xcodeproj */,
 				DAA967EE156150FD00BD5AE4 /* FRShutterViewController */,
 				DAA968051561515200BD5AE4 /* FRShutterViewControllerDemo */,

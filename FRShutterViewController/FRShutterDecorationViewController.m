@@ -1,10 +1,21 @@
-//
-//  FRShutterController.m
-//  FRShutterViewController
-//
-//  Created by Johannes Weiß on 5/14/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*     This file is part of FRShutterViewController.
+ *
+ * FRShutterViewController is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * FRShutterViewController is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with FRShutterViewController.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+ *  Copyright (c) 2012, Johannes Weiß <weiss@tux4u.de> for factis research GmbH.
+ */
 
 #import <QuartzCore/QuartzCore.h>
 #import "FRShutterDecorationViewController.h"
@@ -31,10 +42,10 @@
         NSAssert(vc != nil, @"FRShutterDecorationViewController: content view controller is nil");
         _contentViewController = vc;
         _customDecorationView = customDecorationView;
-        
+
         [self attachContentViewController];
     }
-    
+
     return self;
 }
 
@@ -56,7 +67,7 @@
 {
     FRShutterViewController *svc = [self shutterViewController];
     const CGSize allSize = self.view.frame.size;
-    
+
     switch(svc.orientation + (10 * svc.spineLocation)) {
         case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMin: {
             return CGRectMake(allSize.width - FRShutterViewControllerShutterDecorationSize,
@@ -92,7 +103,7 @@
 {
     FRShutterViewController *svc = [self shutterViewController];
     const CGSize allSize = self.view.frame.size;
-    
+
     switch(svc.orientation + (10 * svc.spineLocation)) {
         case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMin: {
             return CGRectMake(0,
@@ -128,7 +139,7 @@
 {
     FRShutterViewController *svc = [self shutterViewController];
     const CGSize allSize = self.view.frame.size;
-    
+
     switch(svc.orientation + (10 * svc.spineLocation)) {
         case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMin: {
             return CGPointMake(-allSize.width+FRShutterViewControllerShutterDecorationSize,
@@ -156,7 +167,7 @@
 {
     FRShutterViewController *svc = [self shutterViewController];
     const CGSize allSize = self.view.frame.size;
-    
+
     switch(svc.orientation + (10 * svc.spineLocation)) {
         case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMin: {
             return CGPointMake(0,
@@ -202,13 +213,13 @@
 - (void)loadView {
     self.view = [[UIView alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     if (self.customDecorationView == nil) {
         self.decorationView = [[FRShutterDecorationView alloc] initWithFrame:CGRectZero roundedCorners:0];
     } else {
         self.decorationView = self.customDecorationView;
     }
-    
+
     [self.view addSubview:self.decorationView];
     [self.view addSubview:self.contentViewController.view];
 }
@@ -219,7 +230,7 @@
     self.view.layer.shadowOpacity = 0.5;
     self.view.layer.shadowColor = [UIColor blackColor].CGColor;
     self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
-    
+
     [self doViewLayout];
 }
 
@@ -233,7 +244,7 @@
 {
     [super viewDidUnload];
     NSLog(@"FRShutterDecorationController (%@): viewDidUnload", self);
-    
+
     self.decorationView = nil;
 }
 

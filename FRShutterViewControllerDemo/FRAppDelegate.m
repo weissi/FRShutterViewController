@@ -1,10 +1,21 @@
-//
-//  FRAppDelegate.m
-//  FRShutterViewControllerDemo
-//
-//  Created by Johannes Weiß on 5/14/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*     This file is part of FRShutterViewController.
+ *
+ * FRShutterViewController is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * FRShutterViewController is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with FRShutterViewController.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+ *  Copyright (c) 2012, Johannes Weiß <weiss@tux4u.de> for factis research GmbH.
+ */
 
 #import <FRLayeredNavigationController/FRLayeredNavigation.h>
 
@@ -20,7 +31,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+
     SampleListViewController *slvc1 = [[SampleListViewController alloc] init];
     FRLayeredNavigationController *lnc1 = [[FRLayeredNavigationController alloc]
                                            initWithRootViewController:slvc1];
@@ -43,7 +54,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

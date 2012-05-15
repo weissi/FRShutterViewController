@@ -1,17 +1,17 @@
-/*     This file is part of FRLayeredNavigationController.
+/*     This file is part of FRShutterViewController.
  *
- * FRLayeredNavigationController is free software: you can redistribute it and/or modify
+ * FRShutterViewController is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * FRLayeredNavigationController is distributed in the hope that it will be useful,
+ * FRShutterViewController is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with FRLayeredNavigationController.  If not, see <http://www.gnu.org/licenses/>.
+ * along with FRShutterViewController.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  *  Copyright (c) 2012, Johannes Weiß <weiss@tux4u.de> for factis research GmbH.
@@ -41,10 +41,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
-    
+
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -130,11 +130,11 @@
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+
     cell.textLabel.text = [self cellText:indexPath.row];
     return cell;
 }
@@ -155,10 +155,10 @@
  if (editingStyle == UITableViewCellEditingStyleDelete) {
  // Delete the row from the data source
  [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
+ }
  else if (editingStyle == UITableViewCellEditingStyleInsert) {
  // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
+ }
  }
  */
 
@@ -184,7 +184,7 @@
 {
     UIViewController *svc = nil;
     NSString *title = [NSString stringWithFormat:@"%@ : %@", self.title, [self cellText:indexPath.row]];
-    
+
     if (indexPath.row == 0) {
         /* push a content view controller */
         svc = [[SampleContentViewController alloc] init];
@@ -199,11 +199,11 @@
                                                                                                     arrayWithObjects:@"foo", @"bar", @"buz", nil]];
                                                    segControl.segmentedControlStyle = UISegmentedControlStyleBar;
                                                    segControl.selectedSegmentIndex = 0;
-                                                   
+
                                                    [segControl addTarget:svc
                                                                   action:@selector(indexDidChangeForSegmentedControl:)
                                                         forControlEvents:UIControlEventValueChanged];
-                                                   
+
                                                    item.titleView = segControl;
                                                }];
     } else if (indexPath.row == 1) {
