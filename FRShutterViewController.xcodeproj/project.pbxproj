@@ -47,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52ABE6E515622B4200B870E8 /* akte.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = akte.png; sourceTree = "<group>"; };
 		DAA967E9156150FD00BD5AE4 /* libFRShutterViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFRShutterViewController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAA967EC156150FD00BD5AE4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAA967F0156150FD00BD5AE4 /* FRShutterViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FRShutterViewController-Prefix.pch"; sourceTree = "<group>"; };
@@ -100,6 +101,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52ABE6E4156229E500B870E8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				52ABE6E515622B4200B870E8 /* akte.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		DAA967DE156150FD00BD5AE4 = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +142,7 @@
 		DAA967EE156150FD00BD5AE4 /* FRShutterViewController */ = {
 			isa = PBXGroup;
 			children = (
+				52ABE6E4156229E500B870E8 /* Resources */,
 				DAA967F1156150FD00BD5AE4 /* FRShutterViewController.h */,
 				DAA967F2156150FD00BD5AE4 /* FRShutterViewController.m */,
 				DAA9683A1561549100BD5AE4 /* FRShutterDecorationViewController.h */,
@@ -392,6 +402,7 @@
 		DAA967F7156150FD00BD5AE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				DSTROOT = /tmp/FRShutterViewController.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FRShutterViewController/FRShutterViewController-Prefix.pch";
@@ -404,6 +415,7 @@
 		DAA967F8156150FD00BD5AE4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				DSTROOT = /tmp/FRShutterViewController.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FRShutterViewController/FRShutterViewController-Prefix.pch";
@@ -426,6 +438,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};

@@ -184,7 +184,7 @@
                     f.origin = [self.shutterDecorationViewController originMin];
                 }
             }
-            [UIView animateWithDuration:0.2
+            [UIView animateWithDuration:0.5
                                   delay:0.0
                                 options:UIViewAnimationCurveEaseOut
                              animations:^{
