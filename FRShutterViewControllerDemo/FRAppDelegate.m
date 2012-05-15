@@ -30,6 +30,7 @@
                                                     spineLocation:FRShutterViewControllerSpineLocationMax];
     svc.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
 
+    [slvc1 performSelector:@selector(openMeinTag) withObject:nil afterDelay:0.01];
     self.window.rootViewController = svc;
     [self.window makeKeyAndVisible];
     return YES;
