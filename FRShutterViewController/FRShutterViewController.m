@@ -63,7 +63,7 @@
 
 - (void)dealloc
 {
-    self.panGR.delegate = nil;
+    [self detachGestureRecognizer];
     [self detachMasterViewController];
 }
 
@@ -170,6 +170,18 @@
     } else {
         return [self.shutterDecorationViewController originMin];
     }
+}
+
+- (void)attachGestureRecognizer
+{
+    self.panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+}
+
+- (void)detachGestureRecognizer
+{
+    [self.panGR removeTarget:self action:NULL];
+    self.panGR.delegate = nil;
+    self.panGR = nil;
 }
 
 #pragma mark - UIGestureRecognizer delegate interface
@@ -282,8 +294,7 @@
     /* remove old one */
     FRShutterDecorationViewController *oldVc = self.shutterDecorationViewController;
     self.shutterDecorationViewController = nil;
-    self.panGR.delegate = nil;
-    self.panGR = nil;
+    [self detachGestureRecognizer];
 
     CGRect f = oldVc.view.frame;
     f.origin = [self offscreenOrigin];
@@ -329,7 +340,7 @@
                          self.shutterDecorationViewController.view.frame = onscreenFrame;
                      }
                      completion:^(BOOL finished) {
-                         self.panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+                         [self attachGestureRecognizer];
                          [self.shutterDecorationViewController.decorationView addGestureRecognizer:self.panGR];
                          [self.shutterDecorationViewController didMoveToParentViewController:self];
                      }];
