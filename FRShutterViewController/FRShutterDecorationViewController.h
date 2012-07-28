@@ -32,5 +32,6 @@
 - (CGPoint)originMax;
 
 @property (nonatomic, readonly, strong) UIView *decorationView;
+@property (nonatomic, readonly, strong) UIViewController *contentViewController;
 
 @end
