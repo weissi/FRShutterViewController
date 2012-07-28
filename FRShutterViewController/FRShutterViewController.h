@@ -42,6 +42,8 @@ typedef enum {
     FRShutterViewControllerOrientation _orientation;
     UIPanGestureRecognizer *_panGR;
     UIView *_customDecorationView;
+    NSSet *_snappingPositionsPortrait;
+    NSSet *_snappingPositionsLandscape;
     id<FRShutterViewControllerDelegate> __weak _delegate;
 }
 
@@ -54,7 +56,9 @@ typedef enum {
                      spineLocation:(FRShutterViewControllerSpineLocation)spineLocation
              shutterDecorationView:(UIView *)customDecorationView;
 
-- (void)openDetailViewController:(UIViewController *)vc animated:(BOOL)animated;
+- (void)openDetailViewControllerFully:(UIViewController *)vc animated:(BOOL)animated;
+
+- (void)openDetailViewController:(UIViewController *)vc snapNear:(CGFloat)position animated:(BOOL)animated;
 
 - (void)closeDetailViewControllerAnimated:(BOOL)animated;
 
@@ -62,5 +66,8 @@ typedef enum {
 @property (nonatomic, readonly) FRShutterViewControllerSpineLocation spineLocation;
 @property (nonatomic, readonly, strong) UIViewController *masterViewController;
 @property (nonatomic, weak) id<FRShutterViewControllerDelegate> delegate;
+@property (nonatomic, strong) NSSet *snappingPositionsPortrait;
+@property (nonatomic, strong) NSSet *snappingPositionsLandscape;
+
 
 @end

@@ -22,8 +22,6 @@
 #import "FRShutterDecorationView.h"
 #import "FRShutterViewController.h"
 
-#define FRShutterViewControllerShutterDecorationSize ((CGFloat)44)
-
 @interface FRShutterDecorationViewController ()
 
 @property (nonatomic, readwrite, strong) UIViewController *contentViewController;
@@ -135,60 +133,19 @@
     return CGRectZero;
 }
 
-- (CGPoint)originMin
+- (CGFloat)positionMax
 {
     FRShutterViewController *svc = [self shutterViewController];
     const CGSize allSize = self.view.frame.size;
 
-    switch(svc.orientation + (10 * svc.spineLocation)) {
-        case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMin: {
-            return CGPointMake(-allSize.width+FRShutterViewControllerShutterDecorationSize,
-                               0);
+    switch(svc.orientation) {
+        case FRShutterViewControllerOrientationHorizontal: {
+            return allSize.width - FRShutterViewControllerShutterDecorationSize;
         }
-        case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMax: {
-            return CGPointMake(0,
-                               0);
+        case FRShutterViewControllerOrientationVertical: {
+            return allSize.height - FRShutterViewControllerShutterDecorationSize;
         }
-        case FRShutterViewControllerOrientationVertical + 10 * FRShutterViewControllerSpineLocationMin: {
-            return CGPointMake(0,
-                               -allSize.height+FRShutterViewControllerShutterDecorationSize);
-        }
-        case FRShutterViewControllerOrientationVertical + 10 * FRShutterViewControllerSpineLocationMax: {
-            return CGPointMake(0,
-                               0);
-        }
-        default:
-            NSAssert(false, @"originMin: unknown orientation / spine location");
     }
-    return CGPointZero;
-}
-
-- (CGPoint)originMax
-{
-    FRShutterViewController *svc = [self shutterViewController];
-    const CGSize allSize = self.view.frame.size;
-
-    switch(svc.orientation + (10 * svc.spineLocation)) {
-        case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMin: {
-            return CGPointMake(0,
-                               0);
-        }
-        case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMax: {
-            return CGPointMake(allSize.width-FRShutterViewControllerShutterDecorationSize,
-                               0);
-        }
-        case FRShutterViewControllerOrientationVertical + 10 * FRShutterViewControllerSpineLocationMin: {
-            return CGPointMake(0,
-                               0);
-        }
-        case FRShutterViewControllerOrientationVertical + 10 * FRShutterViewControllerSpineLocationMax: {
-            return CGPointMake(0,
-                               allSize.height-FRShutterViewControllerShutterDecorationSize);
-        }
-        default:
-            NSAssert(false, @"originMax: unknown orientation / spine location");
-    }
-    return CGPointZero;
 }
 
 - (void)doViewLayout {

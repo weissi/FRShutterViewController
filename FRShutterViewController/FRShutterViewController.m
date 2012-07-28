@@ -30,6 +30,14 @@
 
 @end
 
+typedef enum {
+    Left,
+    Right,
+    Any
+} Direction;
+
+#define kFRShutterViewControllerMinimalFlingVelocity ((CGFloat)400)
+
 @implementation FRShutterViewController
 
 #pragma mark - init/dealloc
@@ -54,6 +62,7 @@
         _orientation = orientation;
         _spineLocation = spineLocation;
         _customDecorationView = customDecorationView;
+        _snappingPositionsPortrait = [NSSet set];
     }
 
     [self attachMasterViewController];
@@ -66,6 +75,26 @@
     [self detachGestureRecognizer];
     [self detachMasterViewController];
 }
+
+#pragma mark - getters / setters
+- (void)setSnappingPointsPortrait:(NSSet *)snappingPointsPortrait
+{
+    if (snappingPointsPortrait == nil) {
+        _snappingPositionsPortrait = [NSSet set];
+    } else {
+        _snappingPositionsPortrait = [snappingPointsPortrait copy];
+    }
+}
+
+- (void)setSnappingPointsLandscape:(NSSet *)snappingPointsLandscape
+{
+    if (snappingPointsLandscape == nil) {
+        _snappingPositionsLandscape = [NSSet set];
+    } else {
+        _snappingPositionsLandscape = [snappingPointsLandscape copy];
+    }
+}
+
 
 #pragma mark - internal methods: add/remove master view controller
 
@@ -86,12 +115,12 @@
 - (void)loadView
 {
     self.view = [[UIView alloc] init];
-    self.masterViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.masterViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | 
+                                                      UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.masterViewController.view];
 
     if (self.shutterDecorationViewController) {
-        const CGRect onscreenFrame = [self shutterDecorationViewControllerViewFrame];
-        self.shutterDecorationViewController.view.frame = onscreenFrame;
+        self.shutterDecorationViewController.view.frame = [self frameFromPosition:[self fullyOpenPosition]];
         [self.view addSubview:self.shutterDecorationViewController.view];
     }
 }
@@ -126,13 +155,32 @@
 
 #pragma mark - internal helper methods
 
+- (void)doHorizontalShutter:(void (^)())blockH verticalShutter:(void (^)())blockV
+{
+    switch (self.orientation) {
+        case FRShutterViewControllerOrientationHorizontal: {
+            blockH();
+            break;
+        }
+
+        case FRShutterViewControllerOrientationVertical: {
+            blockV();
+            break;
+        }
+
+        default:
+            NSAssert(false, @"BUG: unknown orientation");
+            break;
+    }
+}
+
 - (void)doLayout
 {
     if (self.shutterDecorationViewController != nil) {
         CGRect f = self.shutterDecorationViewController.view.frame;
         f.size = self.view.bounds.size;
         self.shutterDecorationViewController.view.frame = f; /* don't remove this line! */
-        f.origin = [self shutterNearestBound];
+        f = [self frameFromPosition:[self nearestSnappingPositionInDirection:Any]];
         self.shutterDecorationViewController.view.frame = f;
     }
 
@@ -157,19 +205,83 @@
     return CGPointZero;
 }
 
-- (CGPoint)shutterNearestBound
+- (NSSet *)snappingPositionsForCurrentInterfaceOrientation
 {
-    CGPoint min = [self.shutterDecorationViewController originMin];
-    CGPoint max = [self.shutterDecorationViewController originMax];
-    CGPoint cur = self.shutterDecorationViewController.view.frame.origin;
-    CGFloat distToMin = sqrt(((min.x-cur.x)*(min.x-cur.x)) + ((min.y-cur.y)*((min.y-cur.y))));
-    CGFloat distToMax = sqrt(((max.x-cur.x)*(max.x-cur.x)) + ((max.y-cur.y)*((max.y-cur.y))));
+    switch ([[UIApplication sharedApplication] statusBarOrientation]) {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight: {
+            return self.snappingPositionsLandscape;
+        }
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+        default: {
+            return self.snappingPositionsPortrait;
+        }
+    }
+}
+
++ (CGFloat)distancePosition:(CGFloat)pos toReference:(CGFloat)ref inDirection:(Direction)direction
+{
+    switch (direction) {
+        case Left: {
+            if (ref > pos) {
+                return MAXFLOAT;
+            } else {
+                return fabsf(ref - pos);
+            }
+        }
+        case Right: {
+            if (ref < pos) {
+                return MAXFLOAT;
+            } else {
+                return fabsf(ref - pos);
+            }
+        }
+        default: {
+            /* to here */
+            return fabsf(ref - pos);
+        }
+    }
+
+}
+
+- (CGFloat)nearestSnappingPositionInDirection:(Direction)direction
+{
+    const CGFloat curPos = [self positionFromFrame:self.shutterDecorationViewController.view.frame];
+    return [self nearestSnappingPositionFromPosition:curPos
+                                         inDirection:direction];
+}
+
+- (CGFloat)nearestSnappingPositionFromPosition:(CGFloat)curPos inDirection:(Direction)direction
+{
+
+    CGFloat nearestSnappingPositionInSet = -1;
+    CGFloat distNearestSnappingPointInSet = MAXFLOAT;
+
+    const CGFloat min = 0;
+    const CGFloat max = [self.shutterDecorationViewController positionMax];
+    const CGFloat distToMin = [FRShutterViewController distancePosition:curPos toReference:min inDirection:direction];
+    const CGFloat distToMax = [FRShutterViewController distancePosition:curPos toReference:max inDirection:direction];
 
     if (distToMax < distToMin) {
-        return [self.shutterDecorationViewController originMax];
+        nearestSnappingPositionInSet = max;
+        distNearestSnappingPointInSet = distToMax;
     } else {
-        return [self.shutterDecorationViewController originMin];
+        nearestSnappingPositionInSet = min;
+        distNearestSnappingPointInSet = distToMin;
     }
+
+    for (NSNumber *posNum in [self snappingPositionsForCurrentInterfaceOrientation]) {
+        const CGFloat pos = [posNum floatValue];
+        const CGFloat dist = [FRShutterViewController distancePosition:curPos toReference:pos inDirection:direction];
+
+        if (dist < distNearestSnappingPointInSet) {
+            nearestSnappingPositionInSet = pos;
+            distNearestSnappingPointInSet = dist;
+        }
+    }
+
+    return nearestSnappingPositionInSet;
 }
 
 - (void)attachGestureRecognizer
@@ -184,12 +296,78 @@
     self.panGR = nil;
 }
 
+- (CGFloat)fullyOpenPosition
+{
+    switch (self.spineLocation) {
+        case FRShutterViewControllerSpineLocationMin:
+            /* HACK: Just use the maximum possible screen position */
+            return 1024;
+        case FRShutterViewControllerSpineLocationMax:
+            /* HACK: Just use the minimum possible screen position */
+            return 0;
+    }
+}
+
+- (CGRect)frameFromPosition:(CGFloat)pos
+{
+    const CGSize allSize = self.view.bounds.size;
+    CGPoint p;
+
+    switch(self.orientation + (10 * self.spineLocation)) {
+        case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMin: {
+            p = CGPointMake(-allSize.width+pos+FRShutterViewControllerShutterDecorationSize, 0);
+            break;
+        }
+        case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMax: {
+            p = CGPointMake(pos, 0);
+            break;
+        }
+        case FRShutterViewControllerOrientationVertical + 10 * FRShutterViewControllerSpineLocationMin: {
+            p = CGPointMake(0, -allSize.height+pos+FRShutterViewControllerShutterDecorationSize);
+            break;
+        }
+        case FRShutterViewControllerOrientationVertical + 10 * FRShutterViewControllerSpineLocationMax: {
+            p = CGPointMake(0, pos);
+            break;
+        }
+        default:
+            NSAssert(false, @"originMin: unknown orientation / spine location");
+    }
+
+    const CGRect f = CGRectMake(p.x, p.y, allSize.width, allSize.height);
+    return f;
+}
+
+- (CGFloat)positionFromFrame:(CGRect)frame
+{
+    const CGSize allSize = self.view.bounds.size;
+    const CGPoint p = frame.origin;
+
+    switch(self.orientation + (10 * self.spineLocation)) {
+        case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMin: {
+            return p.x+allSize.width-FRShutterViewControllerShutterDecorationSize;
+        }
+        case FRShutterViewControllerOrientationHorizontal + 10 * FRShutterViewControllerSpineLocationMax: {
+            return p.x;
+        }
+        case FRShutterViewControllerOrientationVertical + 10 * FRShutterViewControllerSpineLocationMin: {
+            return p.y+allSize.height-FRShutterViewControllerShutterDecorationSize;
+        }
+        case FRShutterViewControllerOrientationVertical + 10 * FRShutterViewControllerSpineLocationMax: {
+            return p.y;
+        }
+        default:
+            NSAssert(false, @"positionFromFrame: unknown orientation / spine location");
+            return 0;
+    }
+}
+
 #pragma mark - UIGestureRecognizer delegate interface
 
 - (void)handleGesture:(UIPanGestureRecognizer *)g
 {
     UIView *v = self.shutterDecorationViewController.view;
-    CGRect f = v.frame;
+    __block CGRect f = v.frame;
 
     switch (g.state) {
         case UIGestureRecognizerStatePossible: {
@@ -204,27 +382,19 @@
 
         case UIGestureRecognizerStateChanged: {
             //NSLog(@"UIGestureRecognizerStateChanged");
-            CGFloat newShutterPosition = -1;
+            __block CGFloat newShutterPosition = -1;
 
-            switch (self.orientation) {
-                case FRShutterViewControllerOrientationHorizontal: {
-                    CGFloat xTranslation = [g translationInView:v].x;
-                    f.origin.x += xTranslation;
-                    v.frame = f;
-                    newShutterPosition = v.frame.origin.x;
-                    break;
-                }
-                case FRShutterViewControllerOrientationVertical: {
-                    CGFloat yTranslation = [g translationInView:v].y;
-                    f.origin.y += yTranslation;
-                    v.frame = f;
-                    newShutterPosition = v.frame.origin.y;
-
-                    break;
-                }
-                default:
-                    NSAssert(false, @"unknown orientation");
-            }
+            [self doHorizontalShutter:^{
+                CGFloat xTranslation = [g translationInView:v].x;
+                f.origin.x += xTranslation;
+                v.frame = f;
+                newShutterPosition = v.frame.origin.x;
+            } verticalShutter:^{
+                CGFloat yTranslation = [g translationInView:v].y;
+                f.origin.y += yTranslation;
+                v.frame = f;
+                newShutterPosition = v.frame.origin.y;
+            }];
 
             if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:)]) {
                 [self.delegate shutterWillMoveToPosition:newShutterPosition];
@@ -239,51 +409,44 @@
         case UIGestureRecognizerStateEnded: {
             //NSLog(@"UIGestureRecognizerStateEnded");
             CGFloat velocity;
+            CGFloat animationVelocity = -1;
+            CGFloat currentShutterPosition = -1;
+
             switch (self.orientation) {
                 case FRShutterViewControllerOrientationHorizontal: {
                     velocity = [g velocityInView:v].x;
+                    currentShutterPosition = f.origin.x;
                     break;
                 }
                 case FRShutterViewControllerOrientationVertical: {
                     velocity = [g velocityInView:v].y;
+                    currentShutterPosition = f.origin.y;
                     break;
                 }
                 default:
                     NSAssert(false, @"unknown orientation");
-            }
-
-            CGPoint newOrigin;
-            if (abs(velocity) > 100) {
-                if (velocity > 0) {
-                    newOrigin = [self.shutterDecorationViewController originMax];
-                } else {
-                    newOrigin = [self.shutterDecorationViewController originMin];
-                }
-            } else {
-                newOrigin = [self shutterNearestBound];
             }
 
             CGFloat newShutterPosition;
-            switch (self.orientation) {
-                case FRShutterViewControllerOrientationHorizontal: {
-                    newShutterPosition = newOrigin.x;
-                    break;
+            if (fabsf(velocity) > kFRShutterViewControllerMinimalFlingVelocity) {
+                if (velocity > 0) {
+                    newShutterPosition = [self nearestSnappingPositionInDirection:Right];
+                } else {
+                    newShutterPosition = [self nearestSnappingPositionInDirection:Left];
                 }
-                case FRShutterViewControllerOrientationVertical: {
-                    newShutterPosition = newOrigin.y;
-                    break;
-                }
-                default:
-                    NSAssert(false, @"unknown orientation");
+                animationVelocity = fabsf(velocity);
+            } else {
+                newShutterPosition = [self nearestSnappingPositionInDirection:Any];
+                animationVelocity = kFRShutterViewControllerMinimalFlingVelocity;
             }
 
             if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:)]) {
                 [self.delegate shutterWillMoveToPosition:newShutterPosition];
             }
 
-            f.origin = newOrigin;
-
-            [UIView animateWithDuration:0.5
+            f = [self frameFromPosition:newShutterPosition];
+            const CGFloat duration = fabsf(newShutterPosition - currentShutterPosition) / animationVelocity;
+            [UIView animateWithDuration:duration
                                   delay:0.0
                                 options:UIViewAnimationCurveEaseOut
                              animations:^{
@@ -300,23 +463,6 @@
         default:
             break;
     }
-}
-
-- (CGRect)shutterDecorationViewControllerViewFrame
-{
-    CGPoint onscreenOrigin;
-    if (self.spineLocation == FRShutterViewControllerSpineLocationMin) {
-        onscreenOrigin = [self.shutterDecorationViewController originMax];
-    } else if (self.spineLocation == FRShutterViewControllerSpineLocationMax) {
-        onscreenOrigin = [self.shutterDecorationViewController originMin];
-    } else {
-        NSAssert(false, @"unknown spine location");
-    }
-    const CGRect onscreenFrame = CGRectMake(onscreenOrigin.x,
-                                            onscreenOrigin.y,
-                                            self.view.bounds.size.width,
-                                            self.view.bounds.size.height);
-    return onscreenFrame;
 }
 
 #pragma mark - Public API
@@ -354,7 +500,12 @@
                      }];
 }
 
-- (void)openDetailViewController:(UIViewController *)vc animated:(BOOL)animated
+- (void)openDetailViewControllerFully:(UIViewController *)vc animated:(BOOL)animated
+{
+    [self openDetailViewController:vc snapNear:[self fullyOpenPosition] animated:animated];
+}
+
+- (void)openDetailViewController:(UIViewController *)vc snapNear:(CGFloat)position animated:(BOOL)animated
 {
     if (self.shutterDecorationViewController != nil) {
         [self closeDetailViewControllerAnimated:animated];
@@ -380,8 +531,9 @@
                                              self.view.bounds.size.width,
                                              self.view.bounds.size.height);
 
-    const CGRect onscreenFrame = [self shutterDecorationViewControllerViewFrame];
     self.shutterDecorationViewController.view.frame = offscreenFrame;
+    const CGRect onscreenFrame = [self frameFromPosition:[self nearestSnappingPositionFromPosition:position
+                                                                                       inDirection:Any]];
     [self.view addSubview:self.shutterDecorationViewController.view];
 
     [UIView animateWithDuration:animated ? 0.5 : 0.0
@@ -405,5 +557,7 @@
 @synthesize panGR = _panGR;
 @synthesize customDecorationView = _customDecorationView;
 @synthesize delegate = _delegate;
+@synthesize snappingPositionsPortrait = _snappingPositionsPortrait;
+@synthesize snappingPositionsLandscape = _snappingPositionsLandscape;
 
 @end

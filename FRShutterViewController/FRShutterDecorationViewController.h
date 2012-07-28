@@ -19,6 +19,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define FRShutterViewControllerShutterDecorationSize ((CGFloat)44)
+
 @class FRShutterDecorationView;
 
 @interface FRShutterDecorationViewController : UIViewController {
@@ -28,8 +30,7 @@
 }
 
 - (id)initWithContentViewController:(UIViewController *)vc shutterDecorationView:(UIView *)customDecorationView;
-- (CGPoint)originMin;
-- (CGPoint)originMax;
+- (CGFloat)positionMax;
 
 @property (nonatomic, readonly, strong) UIView *decorationView;
 @property (nonatomic, readonly, strong) UIViewController *contentViewController;

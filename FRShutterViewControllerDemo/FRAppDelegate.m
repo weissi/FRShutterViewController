@@ -41,6 +41,9 @@
                                                     spineLocation:FRShutterViewControllerSpineLocationMax];
     svc.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     svc.delegate = self;
+    svc.snappingPositionsPortrait = [NSSet setWithObjects:[NSNumber numberWithFloat:200], nil];
+    svc.snappingPositionsLandscape = [NSSet setWithObjects:[NSNumber numberWithFloat:400], nil];
+
 
     self.window.rootViewController = svc;
     [self.window makeKeyAndVisible];

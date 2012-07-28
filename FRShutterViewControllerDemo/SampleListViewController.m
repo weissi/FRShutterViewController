@@ -216,15 +216,15 @@
     } else if (indexPath.row == 2) {
         SampleListViewController *vc = [[SampleListViewController alloc] init];
         FRLayeredNavigationController *lnc = [[FRLayeredNavigationController alloc] initWithRootViewController:vc];
-        [self.shutterViewController openDetailViewController:lnc animated:YES];
+        [self.shutterViewController openDetailViewControllerFully:lnc animated:YES];
     } else if (indexPath.row == 3) {
         SampleListViewController *vc = [[SampleListViewController alloc] init];
         FRLayeredNavigationController *lnc = [[FRLayeredNavigationController alloc] initWithRootViewController:vc];
-        [self.shutterViewController openDetailViewController:lnc animated:NO];
+        [self.shutterViewController openDetailViewControllerFully:lnc animated:NO];
     } else if (indexPath.row == 4) {
-        [self.shutterViewController openDetailViewController:nil animated:YES];
+        [self.shutterViewController openDetailViewControllerFully:nil animated:YES];
     } else if (indexPath.row == 5) {
-        [self.shutterViewController openDetailViewController:nil animated:NO];
+        [self.shutterViewController openDetailViewControllerFully:nil animated:NO];
     } else {
         /* list */
         svc = [[SampleListViewController alloc] init];
