@@ -47,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA2EF07F15C3EF2B00C743AA /* FRShutterViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FRShutterViewControllerDelegate.h; sourceTree = "<group>"; };
 		DAA820871562C6F0000F4D62 /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
 		DAA820881562C6F0000F4D62 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		DAA820891562C6F0000F4D62 /* COPYING.LESSER */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING.LESSER; sourceTree = "<group>"; };
@@ -147,6 +148,7 @@
 				DAA9684A15615E6C00BD5AE4 /* FRShutterDecorationView.m */,
 				DAA9684D156165C800BD5AE4 /* UIViewController+FRShutterViewController.h */,
 				DAA9684E156165C800BD5AE4 /* UIViewController+FRShutterViewController.m */,
+				DA2EF07F15C3EF2B00C743AA /* FRShutterViewControllerDelegate.h */,
 				DAA967EF156150FD00BD5AE4 /* Supporting Files */,
 			);
 			path = FRShutterViewController;

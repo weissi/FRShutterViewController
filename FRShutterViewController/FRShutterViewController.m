@@ -204,21 +204,33 @@
 
         case UIGestureRecognizerStateChanged: {
             //NSLog(@"UIGestureRecognizerStateChanged");
+            CGFloat newShutterPosition = -1;
+
             switch (self.orientation) {
                 case FRShutterViewControllerOrientationHorizontal: {
                     CGFloat xTranslation = [g translationInView:v].x;
                     f.origin.x += xTranslation;
                     v.frame = f;
+                    newShutterPosition = v.frame.origin.x;
                     break;
                 }
                 case FRShutterViewControllerOrientationVertical: {
                     CGFloat yTranslation = [g translationInView:v].y;
                     f.origin.y += yTranslation;
                     v.frame = f;
+                    newShutterPosition = v.frame.origin.y;
+
                     break;
                 }
                 default:
-                    NSAssert(false, @"unknwon orientation");
+                    NSAssert(false, @"unknown orientation");
+            }
+
+            if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:)]) {
+                [self.delegate shutterWillMoveToPosition:newShutterPosition];
+            }
+            if ([self.delegate respondsToSelector:@selector(shutterDidMoveToPosition:)]) {
+                [self.delegate shutterDidMoveToPosition:newShutterPosition];
             }
             [g setTranslation:CGPointZero inView:v];
             break;
@@ -237,18 +249,40 @@
                     break;
                 }
                 default:
-                    NSAssert(false, @"unknwon orientation");
+                    NSAssert(false, @"unknown orientation");
             }
 
+            CGPoint newOrigin;
             if (abs(velocity) > 100) {
                 if (velocity > 0) {
-                    f.origin = [self.shutterDecorationViewController originMax];
+                    newOrigin = [self.shutterDecorationViewController originMax];
                 } else {
-                    f.origin = [self.shutterDecorationViewController originMin];
+                    newOrigin = [self.shutterDecorationViewController originMin];
                 }
             } else {
-                f.origin = [self shutterNearestBound];
+                newOrigin = [self shutterNearestBound];
             }
+
+            CGFloat newShutterPosition;
+            switch (self.orientation) {
+                case FRShutterViewControllerOrientationHorizontal: {
+                    newShutterPosition = newOrigin.x;
+                    break;
+                }
+                case FRShutterViewControllerOrientationVertical: {
+                    newShutterPosition = newOrigin.y;
+                    break;
+                }
+                default:
+                    NSAssert(false, @"unknown orientation");
+            }
+
+            if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:)]) {
+                [self.delegate shutterWillMoveToPosition:newShutterPosition];
+            }
+
+            f.origin = newOrigin;
+
             [UIView animateWithDuration:0.5
                                   delay:0.0
                                 options:UIViewAnimationCurveEaseOut
@@ -256,6 +290,9 @@
                                  v.frame = f;
                              }
                              completion:^(BOOL finished) {
+                                 if ([self.delegate respondsToSelector:@selector(shutterDidMoveToPosition:)]) {
+                                     [self.delegate shutterDidMoveToPosition:newShutterPosition];
+                                 }
                              }];
             break;
         }
@@ -292,6 +329,10 @@
     }
 
     /* remove old one */
+    if ([self.delegate respondsToSelector:@selector(willCloseDetailViewController:)]) {
+        [self.delegate willCloseDetailViewController:self.shutterDecorationViewController.contentViewController];
+    }
+
     FRShutterDecorationViewController *oldVc = self.shutterDecorationViewController;
     self.shutterDecorationViewController = nil;
     [self detachGestureRecognizer];
@@ -306,6 +347,10 @@
                          [oldVc willMoveToParentViewController:nil];
                          [oldVc.view removeFromSuperview];
                          [oldVc removeFromParentViewController];
+
+                         if ([self.delegate respondsToSelector:@selector(didCloseDetailViewController)]) {
+                             [self.delegate didCloseDetailViewController];
+                         }
                      }];
 }
 
@@ -321,6 +366,10 @@
         return;
     }
     /* no shutter controller yet, create new one */
+    if ([self.delegate respondsToSelector:@selector(willOpenDetailViewController:)]) {
+        [self.delegate willOpenDetailViewController:vc];
+    }
+
     self.shutterDecorationViewController =
         [[FRShutterDecorationViewController alloc] initWithContentViewController:vc
                                                            shutterDecorationView:self.customDecorationView];
@@ -343,6 +392,9 @@
                          [self attachGestureRecognizer];
                          [self.shutterDecorationViewController.decorationView addGestureRecognizer:self.panGR];
                          [self.shutterDecorationViewController didMoveToParentViewController:self];
+                         if ([self.delegate respondsToSelector:@selector(didOpenDetailViewController:)]) {
+                             [self.delegate didOpenDetailViewController:vc];
+                         }
                      }];
 }
 
@@ -352,5 +404,6 @@
 @synthesize shutterDecorationViewController = _shutterDecorationViewController;
 @synthesize panGR = _panGR;
 @synthesize customDecorationView = _customDecorationView;
+@synthesize delegate = _delegate;
 
 @end

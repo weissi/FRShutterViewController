@@ -10,4 +10,13 @@
 
 @protocol FRShutterViewControllerDelegate <NSObject>
 
+@optional
+
+- (void)willOpenDetailViewController:(UIViewController *)vc;
+- (void)didOpenDetailViewController:(UIViewController *)vc;
+- (void)willCloseDetailViewController:(UIViewController *)vc;
+- (void)didCloseDetailViewController;
+- (void)shutterWillMoveToPosition:(CGFloat)pos;
+- (void)shutterDidMoveToPosition:(CGFloat)pos;
+
 @end

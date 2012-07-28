@@ -40,6 +40,7 @@
                                                shutterOrientation:FRShutterViewControllerOrientationHorizontal
                                                     spineLocation:FRShutterViewControllerSpineLocationMax];
     svc.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    svc.delegate = self;
 
     self.window.rootViewController = svc;
     [self.window makeKeyAndVisible];
@@ -72,5 +73,34 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)willOpenDetailViewController:(UIViewController *)vc
+{
+    NSLog(@"will open: %@", vc);
+}
+- (void)didOpenDetailViewController:(UIViewController *)vc
+{
+    NSLog(@"did open: %@", vc);
+}
+- (void)willCloseDetailViewController:(UIViewController *)vc
+{
+    NSLog(@"will close: %@", vc);
+
+}
+- (void)didCloseDetailViewController
+{
+    NSLog(@"did close");
+}
+
+- (void)shutterWillMoveToPosition:(CGFloat)pos
+{
+    NSLog(@"will move to %f", pos);
+}
+- (void)shutterDidMoveToPosition:(CGFloat)pos
+{
+    NSLog(@"did move to %f", pos);
+}
+
+
 
 @end

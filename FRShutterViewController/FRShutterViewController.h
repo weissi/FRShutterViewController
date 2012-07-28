@@ -21,6 +21,7 @@
 #import <UIKit/UIKit.h>
 
 #import "UIViewController+FRShutterViewController.h"
+#import "FRShutterViewControllerDelegate.h"
 
 @class FRShutterDecorationViewController;
 
@@ -41,6 +42,7 @@ typedef enum {
     FRShutterViewControllerOrientation _orientation;
     UIPanGestureRecognizer *_panGR;
     UIView *_customDecorationView;
+    id<FRShutterViewControllerDelegate> __weak _delegate;
 }
 
 - (id)initWithMasterViewController:(UIViewController *)master
@@ -59,5 +61,6 @@ typedef enum {
 @property (nonatomic, readonly) FRShutterViewControllerOrientation orientation;
 @property (nonatomic, readonly) FRShutterViewControllerSpineLocation spineLocation;
 @property (nonatomic, readonly, strong) UIViewController *masterViewController;
+@property (nonatomic, weak) id<FRShutterViewControllerDelegate> delegate;
 
 @end

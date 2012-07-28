@@ -18,8 +18,9 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "FRShutterViewControllerDelegate.h"
 
-@interface FRAppDelegate : UIResponder <UIApplicationDelegate>
+@interface FRAppDelegate : UIResponder <UIApplicationDelegate, FRShutterViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
