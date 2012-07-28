@@ -33,6 +33,9 @@
 
 - (void)dealloc
 {
+    if (self->_savedGradient != NULL) {
+        CGGradientRelease(self->_savedGradient);
+    }
     self->_savedGradient = NULL;
 }
 
