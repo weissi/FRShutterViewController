@@ -382,22 +382,24 @@ typedef enum {
 
         case UIGestureRecognizerStateChanged: {
             //NSLog(@"UIGestureRecognizerStateChanged");
-            __block CGFloat newShutterPosition = -1;
+            __block CGFloat newShutterCoordinate = -1;
 
             [self doHorizontalShutter:^{
                 CGFloat xTranslation = [g translationInView:v].x;
                 f.origin.x += xTranslation;
                 v.frame = f;
-                newShutterPosition = v.frame.origin.x;
+                newShutterCoordinate = v.frame.origin.x;
             } verticalShutter:^{
                 CGFloat yTranslation = [g translationInView:v].y;
                 f.origin.y += yTranslation;
                 v.frame = f;
-                newShutterPosition = v.frame.origin.y;
+                newShutterCoordinate = v.frame.origin.y;
             }];
 
-            if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:)]) {
-                [self.delegate shutterWillMoveToPosition:newShutterPosition];
+            const CGFloat newShutterPosition = [self positionFromFrame:f];
+
+            if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:animated:duration:)]) {
+                [self.delegate shutterWillMoveToPosition:newShutterPosition animated:NO duration:0];
             }
             if ([self.delegate respondsToSelector:@selector(shutterDidMoveToPosition:)]) {
                 [self.delegate shutterDidMoveToPosition:newShutterPosition];
@@ -440,12 +442,12 @@ typedef enum {
                 animationVelocity = kFRShutterViewControllerMinimalFlingVelocity;
             }
 
-            if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:)]) {
-                [self.delegate shutterWillMoveToPosition:newShutterPosition];
+            const CGFloat duration = fabsf(newShutterPosition - currentShutterPosition) / animationVelocity;
+            if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:animated:duration:)]) {
+                [self.delegate shutterWillMoveToPosition:newShutterPosition animated:YES duration:duration];
             }
 
             f = [self frameFromPosition:newShutterPosition];
-            const CGFloat duration = fabsf(newShutterPosition - currentShutterPosition) / animationVelocity;
             [UIView animateWithDuration:duration
                                   delay:0.0
                                 options:UIViewAnimationCurveEaseOut
@@ -532,11 +534,17 @@ typedef enum {
                                              self.view.bounds.size.height);
 
     self.shutterDecorationViewController.view.frame = offscreenFrame;
-    const CGRect onscreenFrame = [self frameFromPosition:[self nearestSnappingPositionFromPosition:position
-                                                                                       inDirection:Any]];
+    const CGFloat onscreenPosition = [self nearestSnappingPositionFromPosition:position inDirection:Any];
+    const CGRect onscreenFrame = [self frameFromPosition:onscreenPosition];
     [self.view addSubview:self.shutterDecorationViewController.view];
 
-    [UIView animateWithDuration:animated ? 0.5 : 0.0
+    const NSTimeInterval animationDuration = animated ? 0.5 : 0.0;
+
+    if ([self.delegate respondsToSelector:@selector(shutterWillMoveToPosition:animated:duration:)]) {
+        [self.delegate shutterWillMoveToPosition:onscreenPosition animated:animated duration:animationDuration];
+    }
+
+    [UIView animateWithDuration:animationDuration
                      animations:^{
                          self.shutterDecorationViewController.view.frame = onscreenFrame;
                      }
@@ -546,6 +554,9 @@ typedef enum {
                          [self.shutterDecorationViewController didMoveToParentViewController:self];
                          if ([self.delegate respondsToSelector:@selector(didOpenDetailViewController:)]) {
                              [self.delegate didOpenDetailViewController:vc];
+                         }
+                         if ([self.delegate respondsToSelector:@selector(shutterDidMoveToPosition:)]) {
+                             [self.delegate shutterDidMoveToPosition:onscreenPosition];
                          }
                      }];
 }

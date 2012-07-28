@@ -16,7 +16,7 @@
 - (void)didOpenDetailViewController:(UIViewController *)vc;
 - (void)willCloseDetailViewController:(UIViewController *)vc;
 - (void)didCloseDetailViewController;
-- (void)shutterWillMoveToPosition:(CGFloat)pos;
+- (void)shutterWillMoveToPosition:(CGFloat)pos animated:(BOOL)animated duration:(NSTimeInterval)duration;
 - (void)shutterDidMoveToPosition:(CGFloat)pos;
 
 @end
