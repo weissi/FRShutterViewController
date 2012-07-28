@@ -181,6 +181,11 @@
     [self.view addSubview:self.contentViewController.view];
 }
 
+- (void)viewDidLoad
+{
+    self.contentViewController.view.clipsToBounds = YES;
+}
+
 - (void)viewWillLayoutSubviews {
     self.view.layer.shadowRadius = 10.0;
     self.view.layer.shadowOffset = CGSizeMake(-2.0, -3.0);
