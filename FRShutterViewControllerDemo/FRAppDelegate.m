@@ -104,9 +104,9 @@
     NSLog(@"did close");
 }
 
-- (void)shutterWillMoveToPosition:(CGFloat)pos
+- (void)shutterWillMoveToPosition:(CGFloat)pos animated:(BOOL)animated duration:(NSTimeInterval)duration
 {
-    NSLog(@"will move to %f", pos);
+    NSLog(@"will move to %f, animated? %@, duration: %f", pos, animated?@"YES":@"NO", duration);
 }
 - (void)shutterDidMoveToPosition:(CGFloat)pos
 {
