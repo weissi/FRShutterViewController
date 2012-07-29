@@ -124,7 +124,7 @@ typedef enum {
 - (void)loadView
 {
     self.view = [[UIView alloc] init];
-    self.masterViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | 
+    self.masterViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth |
                                                       UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.masterViewController.view];
 
